@@ -6,8 +6,9 @@
 class mapTitle {
 public:
 	//int number_entites;
-	std::list<char> title_image;//Тайтл содержит стэк изображений, и показывает нам верхнее
+	std::list<char> title_image;//Г’Г Г©ГІГ« Г±Г®Г¤ГҐГ°Г¦ГЁГІ Г±ГІГЅГЄ ГЁГ§Г®ГЎГ°Г Г¦ГҐГ­ГЁГ©, ГЁ ГЇГ®ГЄГ Г§Г»ГўГ ГҐГІ Г­Г Г¬ ГўГҐГ°ГµГ­ГҐГҐ
 	bool have_grace;
+	std::shared_ptr<Grace> p_grace;
 };
 
 typedef std::vector<std::vector <mapTitle>> TMap;
@@ -24,15 +25,15 @@ class island
 		void createMap();
 		void createFlora();
 		void createFauna();
-		void doActions();
+		void doActions(int&);
 		void sortImages();
 		TMap getMap();
 		~island();
 
 	private:
 		TMap map;
-		const int width = 6;
-		const int hight = 5;
+		const int width = 2;
+		const int hight = 2;
 		const int square_fertile_soil = width*hight;
 		std::vector<Grace> graces;
 		std::vector<Rabbit> rabbits;

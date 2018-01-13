@@ -50,9 +50,9 @@ void Rabbit::setTitlePosition(int i)
 	title_position = i;
 }
 */
-void Rabbit::doEat()
+void Rabbit::doEat(int eat)
 {
-	satiety += 40;
+	satiety += eat;
 }
 
 
@@ -131,8 +131,16 @@ void Rabbit::setPosition(std::pair<int, int> my_position)
 	rabbit_coordinates = my_position;
 }
 
-void Rabbit::doLove()
+Rabbit Rabbit::doLove(std::pair <int, int> coord)
 {
+	Rabbit new_rabbit;
+	new_rabbit.age = 0;
+	std::mt19937 gen(std::time(0));
+	std::uniform_int_distribution<int> initrab(4, 8);//инициатива кролика
+	initiative = initrab(gen);
+	new_rabbit.setPosition(coord);
+	satiety = 80;
+	return new_rabbit;
 }
 
 Rabbit::~Rabbit()

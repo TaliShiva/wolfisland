@@ -36,11 +36,11 @@ public:
 	//void info();
 	int getTitlePosition();
 	void setTitlePosition(int);
-	void doEat();//кролик ест траву
+	void doEat(int);//кролик ест траву
 	void doStep(int,int);//кролик перемешается на указанную позицию
 	std::pair <int, int> getPosition();//получаем текущую позицию кролика
 	void setPosition( std::pair <int, int>);//устанавливаем позицию кролика
-	void doLove();//кролик размножается
+	Rabbit doLove(std::pair <int, int>);//кролик размножается
 	~Rabbit();//уничтожение кролика
 private:
 	std::pair <int, int> rabbit_coordinates;
