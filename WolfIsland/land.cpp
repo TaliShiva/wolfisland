@@ -67,29 +67,30 @@ void island::createFauna()
 	std::pair<int, int> r_position;
 	r_position.first = x(gen);
 	r_position.second = y(gen);
-	int rabbit_quantity = 2;//передаваемое значение должно быть - количество кролей
+	int rabbit_quantity = 4;//передаваемое значение должно быть - количество кролей
 	for (int i = 0; i < rabbit_quantity; i++) {
-		Rabbit rabbit;//создали кролика
-		rabbit.setPosition(r_position);//установили его начальное положение
-		map[rabbit.getPosition().first][rabbit.getPosition().second].title_image.push_back('r');
+		//Rabbit rabbit;//создание кролика - заменили на создание через умные указатели
+		auto rabbit = std::make_shared<Rabbit>();
+		rabbit->setPosition(r_position);//установили его начальное положение
+		map[rabbit->getPosition().first][rabbit->getPosition().second].title_image.push_back('r');
 		//rabbit.setTitlePosition(map[rabbit.getPosition().first][rabbit.getPosition().second].title_image.size());//запоминаем
 		//на какой высоте находится изображение кролика
 		rabbits.push_back(rabbit);//поместили кролика в контейнер кроликов
 	}
 }
 
-void island::doActions(int &rabbit_birth_counter)
+void island::doActions(int &rabbit_birth_counter, int& world_step)
 {
 	//фаза передвижений кроликов
 	for (int i = 0; i < rabbits.size(); i++) {
-		auto x = rabbits[i].getPosition().first;
-		auto y = rabbits[i].getPosition().second;
+		auto x = rabbits[i]->getPosition().first;
+		auto y = rabbits[i]->getPosition().second;
 		//auto cock = rabbits[i].getTitlePosition();
 		map[x][y].title_image.remove('r');
-		Sleep(250);
-		rabbits[i].doStep(width, hight);
-		auto x2 = rabbits[i].getPosition().first;
-		auto y2 = rabbits[i].getPosition().second;
+		Sleep(100);
+		rabbits[i]->doStep(width, hight);
+		auto x2 = rabbits[i]->getPosition().first;
+		auto y2 = rabbits[i]->getPosition().second;
 		map[x2][y2].title_image.push_back('r');
 		//drawMap();
 	}
@@ -97,25 +98,25 @@ void island::doActions(int &rabbit_birth_counter)
 	int rcount = rabbits.size();//кол-во кроликов на данную интерацию
 	//фаза питания
 	for (int i = 0; i < rcount; i++) {
-		int x = rabbits[i].getPosition().first;
-		int y = rabbits[i].getPosition().second;
+		int x = rabbits[i]->getPosition().first;
+		int y = rabbits[i]->getPosition().second;
 		if (map[x][y].have_grace) {
 			int cur_energy = map[x][y].p_grace->getEnergy();
 			if (cur_energy > 20) {
-				rabbits[i].doEat(20);
+				rabbits[i]->doEat(20);
 				map[x][y].p_grace->setEnergy(cur_energy - 20);
 			}
 			else {
-				rabbits[i].doEat(cur_energy);
+				rabbits[i]->doEat(cur_energy);
 				map[x][y].p_grace->setEnergy(0);
 			}
 		}
 		else {
-			rabbits[i].doEat(-20);
+			rabbits[i]->doEat(-15);
 		}
 	}
 
-	//фаза проверки параметров и вызовов деструкторов
+	//фаза проверки параметров и вызовов деструкторов для травы
 	for (auto i = 0; i < width; i++)
 	{
 		for (auto j = 0; j < hight; j++)
@@ -130,16 +131,44 @@ void island::doActions(int &rabbit_birth_counter)
 		}
 	}
 
-	//фаза размножения 
-	/*
-	if (rabbit_birth_counter == 10) {
+	
+	if (rabbit_birth_counter == 15) {
 		for (int i = 0; i < rcount; i++) {
-			rabbits.push_back(rabbits[i].doLove(rabbits[i].getPosition()));
+			auto cur_sat = rabbits[i]->getSatiety();
+			auto cur_age = rabbits[i]->getAge();
+			if ( cur_sat >= 100 && cur_age > 10) {
+				rabbits.push_back(rabbits[i]->doLove(rabbits[i]->getPosition()));
+				rabbits[i]->setSatiety(cur_sat - 25);
+			}
 		}
 		rabbit_birth_counter = 0;
 	}
-	*/
-	//в дальнейшем здесь можно добавить увеличение возраста кролей
+
+	
+	// увеличение возраста кролей и их смерть
+	for (int i = 0; i < rcount; i++) {
+		rabbits[i]->incAge();
+		if (rabbits[i]->getAge() == 80 || rabbits[i]->getSatiety()<=0) {
+			int x = rabbits[i]->getPosition().first;
+			int y = rabbits[i]->getPosition().second;
+			map[x][y].title_image.remove('r');
+			rabbits[i].reset();
+			if (rabbits[i] == 0) {
+				rabbits.erase(rabbits.begin() + i);
+				i--;
+				rcount--;
+			}
+
+		}
+	}
+	world_step++;
+	if (rabbits.size() == 0)
+	{
+		drawMap();
+		std::cout<<std::endl;
+		std::cout << world_step;
+		system("pause");
+	}
 
 }
 

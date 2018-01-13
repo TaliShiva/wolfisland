@@ -131,14 +131,20 @@ void Rabbit::setPosition(std::pair<int, int> my_position)
 	rabbit_coordinates = my_position;
 }
 
-Rabbit Rabbit::doLove(std::pair <int, int> coord)
+void Rabbit::incAge()
 {
-	Rabbit new_rabbit;
-	new_rabbit.age = 0;
+	age++;
+}
+
+std::shared_ptr<Rabbit> Rabbit::doLove(std::pair <int, int> coord)
+{
+	//Rabbit new_rabbit;
+	auto new_rabbit = std::make_shared<Rabbit>();
+	new_rabbit->age = 0;
 	std::mt19937 gen(std::time(0));
 	std::uniform_int_distribution<int> initrab(4, 8);//инициатива кролика
 	initiative = initrab(gen);
-	new_rabbit.setPosition(coord);
+	new_rabbit->setPosition(coord);
 	satiety = 80;
 	return new_rabbit;
 }

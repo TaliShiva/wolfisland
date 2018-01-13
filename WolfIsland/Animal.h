@@ -40,7 +40,8 @@ public:
 	void doStep(int,int);//кролик перемешается на указанную позицию
 	std::pair <int, int> getPosition();//получаем текущую позицию кролика
 	void setPosition( std::pair <int, int>);//устанавливаем позицию кролика
-	Rabbit doLove(std::pair <int, int>);//кролик размножается
+	void incAge();
+	std::shared_ptr<Rabbit> doLove(std::pair <int, int>);//кролик размножается
 	~Rabbit();//уничтожение кролика
 private:
 	std::pair <int, int> rabbit_coordinates;

@@ -25,17 +25,17 @@ class island
 		void createMap();
 		void createFlora();
 		void createFauna();
-		void doActions(int&);
+		void doActions(int&,int&);
 		void sortImages();
 		TMap getMap();
 		~island();
 
 	private:
 		TMap map;
-		const int width = 2;
-		const int hight = 2;
+		const int width = 6;
+		const int hight = 6;
 		const int square_fertile_soil = width*hight;
 		std::vector<Grace> graces;
-		std::vector<Rabbit> rabbits;
+		std::vector<std::shared_ptr<Rabbit>> rabbits;
 };
 
