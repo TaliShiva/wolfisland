@@ -8,6 +8,7 @@ public:
 	//int number_entites;
 	std::list<char> title_image;//Òàéòë ñîäåðæèò ñòýê èçîáðàæåíèé, è ïîêàçûâàåò íàì âåðõíåå
 	bool have_grace;
+	bool have_rabbit;
 	std::shared_ptr<Grace> p_grace;
 };
 
@@ -24,7 +25,7 @@ class island
 		void changeMap();
 		void createMap();
 		void createFlora();
-		void createFauna();
+		void createFauna(int,int);
 		void doActions(int&,int&);
 		void sortImages();
 		TMap getMap();
@@ -32,10 +33,11 @@ class island
 
 	private:
 		TMap map;
-		const int width = 6;
-		const int hight = 6;
+		const int width = 20;
+		const int hight = 20;
 		const int square_fertile_soil = width*hight;
-		std::vector<Grace> graces;
+		std::vector<std::shared_ptr<Wolf>> wolves;
 		std::vector<std::shared_ptr<Rabbit>> rabbits;
+
 };
 

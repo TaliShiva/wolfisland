@@ -1,18 +1,14 @@
 #pragma once
-//#include "EcosystemHeaders.h"
-
 /*
 class Animal
 {
 public:
-	virtual bool isALive() = 0;
 	virtual int getSatiety() = 0;
 	virtual void setSatiety() = 0;
 	virtual void nextAction() = 0;
 	virtual int getInitiative() = 0;
 	virtual int setInitiative() = 0;
 	virtual int getAge() = 0;
-	//virtual void info() = 0;
 	virtual bool getSex() = 0;
 	virtual void doEat() = 0;
 	virtual void doStep() = 0;
@@ -22,20 +18,19 @@ public:
 	};
 */
 //class Rabbit : public Animal {
-class Rabbit{
+
+class Rabbit {
 public:
 	Rabbit();//—оздание кролика проинициализированного значени€ми по умолчанию,в дальнейшем, в 
 	//зависимости от параметров, можно быть задавать каких-то иных кроликов
 	int getSatiety();// получить значение сытости
 	void setSatiety(int);// установить значение сытости
-	void nextAction();//изначально подразумевалось следующее действие кролика, но оно было декомпозировано, до
+	//void nextAction();//изначально подразумевалось следующее действие кролика, но оно было декомпозировано, до
 	//передвижени€-> питани€-> размножени€
 	int getInitiative();//получение инициативы
 	void setInitiative(int);//установка инициативы в зависимости от новых условий
 	int getAge();// получить возраст кролика, с каждым итерацией цикла действий, возраст увеличиваетс€ на единичку
 	//void info();
-	int getTitlePosition();
-	void setTitlePosition(int);
 	void doEat(int);//кролик ест траву
 	void doStep(int,int);//кролик перемешаетс€ на указанную позицию
 	std::pair <int, int> getPosition();//получаем текущую позицию кролика
@@ -52,18 +47,34 @@ private:
 	
 };
 
-
-
-/*
-class Wolf : public Animal {
+class Wolf{
+public:
 	Wolf();
+	int getSatiety();// получить значение сытости
+	void setSatiety(int);// установить значение сытости
+	int getInitiative();//получение инициативы
+	void setInitiative(int);//установка инициативы в зависимости от новых условий
+	int getAge();// получить возраст волка, с каждым итерацией цикла действий, возраст увеличиваетс€ на единичку
+	void doEat(int);//волк ест кроликов
+	void doStep(int, int);//кролик перемешаетс€ на указанную позицию
+	std::pair <int, int> getPosition();//получаем текущую позицию волка
+	void setPosition(std::pair <int, int>);//устанавливаем позицию волка
+	void incAge();
+	std::shared_ptr<Wolf> doLove(std::pair <int, int>);//волк размножаетс€
+	bool getSex();
+	void setSex(bool);
 	~Wolf();
-
+private:
+	std::pair <int, int> wolf_coordinates;
+	int age = 0;
+	int initiative = 0;
+	bool sex;
+	int satiety = 0;
 };
 
 
-//ДUДpДqДВДyД{Дy ДxДrДuДВДuДz - ДPДВДyДrДuДД ДOД|ДuДsДЕ)))
-
+//‘абричный метод дл€ порождени€ зверей
+/*
 class AnimalFactory
 {
 public:
@@ -83,5 +94,4 @@ class WolfFactory : public AnimalFactory
 		return new Wolf;
 	}
  };
-
-*/
+ */
